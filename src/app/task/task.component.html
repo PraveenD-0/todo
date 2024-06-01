@@ -1,0 +1,49 @@
+<div class="container todo-container">
+    <h1 class="text-center"><span class="blue-fox"><i>🦊TODO</i></span></h1>
+    <form (ngSubmit)="createTask()" class="form-container">
+        <div class="row mt-5">
+            <div class="col-6">
+                <input type="text" class="form-control task-input" [(ngModel)]="newTask.description" name="newTaskDescription" placeholder="Enter new task...">
+            </div>
+            <div class="col-2">
+                <button class="btn btn-primary" type="submit">Add Task</button>
+            </div>
+        </div>
+    </form>
+    <div class="row mt-5">
+        <div class="col-6">
+            <div *ngIf="!(tasks.length > 0); else taskList">
+                <h3>No Data</h3>
+            </div>
+            <ng-template #taskList>
+                <ul class="list-group">
+                    <li class="list-group-item task-item" *ngFor="let task of tasks">
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <p>{{task.description}}</p>
+                            </div>
+                            <div class="col-4 text-right">
+                                <button class="btn btn-warning btn-sm mx-1" (click)="editTask(task)">Edit</button>
+                                <button class="btn btn-danger btn-sm mx-1" (click)="deleteTask(task.id)">Delete</button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </ng-template>
+        </div>
+        <div class="col-6">
+            <div *ngIf="editingTask" class="edit-task-container">
+                <form (ngSubmit)="updateTask()">
+                    <label for="editTaskDescription">Edit Task:</label>
+                    <div class="form-group">
+                        <input type="text" [(ngModel)]="updatedTask.description" name="updateTaskDescription" class="form-control" id="editTaskDescription">
+                    </div>
+                    <div class="form-group mt-3 text-right">
+                        <button type="submit" class="btn btn-success mx-2">Save</button>
+                        <button class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
